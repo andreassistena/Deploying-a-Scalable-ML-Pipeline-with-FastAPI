@@ -5,8 +5,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from ml.data import apply_label, process_data
-from ml.model import inference, load_model
-
+from ml.model import inference, load_model, save_model
+project_path = os.getcwd()
 # DO NOT MODIFY
 class Data(BaseModel):
     age: int = Field(..., example=37)
@@ -25,12 +25,13 @@ class Data(BaseModel):
     capital_loss: int = Field(..., example=0, alias="capital-loss")
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
-
-encoder_path = os.path.join("model",'encoder.pkl') # TODO: enter the path for the saved encoder 
-encoder = load_model(encoder_path)
-
-path = os.path.join("model","model.pkl") # TODO: enter the path for the saved model 
-model = load_model(path)
+    
+lb = load_model(os.path.join("model", "lb.pkl"))
+encoder = load_model(os.path.join("model", "encoder.pkl"))
+model = load_model(os.path.join("model", "model.pkl"))
+model_path = os.path.join(project_path, "model", "model.pkl")
+encoder_path = os.path.join(project_path, "model", "encoder.pkl")
+lb_path = os.path.join(project_path, "model", "lb.pkl")
 
 # TODO: create a RESTful API using FastAPI
 app = FastAPI() # your code here
@@ -42,7 +43,7 @@ async def get_root():
 
 
 # TODO: create a POST on a different path that does model inference
-@app.post("/predict/")
+@app.post("/data/")
 async def post_inference(data: Data):
     # DO NOT MODIFY: turn the Pydantic model into a dict.
     data_dict = data.dict()
@@ -67,7 +68,8 @@ async def post_inference(data: Data):
         categorical_features=cat_features,
         label=None,
         training=False,
-        encoder=encoder
+        encoder=encoder,
+        lb=lb
     )
     prediction = inference(model, data_processed)
     return {"prediction": apply_label(prediction)}
