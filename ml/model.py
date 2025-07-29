@@ -1,7 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.ensemble import RandomForestClassifier
 from ml.data import process_data
 import joblib
+from sklearn.ensemble import RandomForestClassifier
 
 
 def train_model(X_train, y_train):
@@ -14,34 +17,18 @@ def train_model(X_train, y_train):
         Training data.
     y_train : np.array
         Labels.
-
     Returns
     -------
     model
         Trained machine learning model.
     """
+    # TODO: implement the function
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
     return model
 
 
 def compute_model_metrics(y, preds):
-    """
-    Computes model precision, recall, and F1.
-
-    Inputs
-    ------
-    y : np.array
-        True labels.
-    preds : np.array
-        Predicted labels.
-
-    Returns
-    -------
-    precision : float
-    recall : float
-    fbeta : float
-    """
     fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
     precision = precision_score(y, preds, zero_division=1)
     recall = recall_score(y, preds, zero_division=1)
@@ -49,85 +36,39 @@ def compute_model_metrics(y, preds):
 
 
 def inference(model, X):
-    """
-    Run model inference and return predictions.
-
-    Inputs
-    ------
-    model : classifier
-        Trained ML model.
-    X : np.array
-        Data for prediction.
-
-    Returns
-    -------
-    preds : np.array
-        Predicted labels.
-    """
     return model.predict(X)
 
 
 def save_model(model, path):
-    """
-    Serializes model to a file.
+    """ Serializes model to a file.
 
     Inputs
     ------
-    model : classifier or encoder
-        Trained ML model or preprocessor.
+    model
+        Trained machine learning model or OneHotEncoder.
     path : str
         Path to save pickle file.
     """
+    # TODO: implement the function
     joblib.dump(model, path)
 
 
 def load_model(path):
-    """
-    Loads pickle file from `path` and returns the object.
-
-    Inputs
-    ------
-    path : str
-        Path to .pkl file.
-
-    Returns
-    -------
-    model : classifier or encoder
-        Loaded object from file.
-    """
+    """ Loads pickle file from `path` and returns it."""
+    # TODO: implement the function
     return joblib.load(path)
 
 
 def performance_on_categorical_slice(
-    data,
-    column_name,
-    slice_value,
-    categorical_features,
-    label,
-    encoder,
-    lb,
-    model
-):
-    """
-    Computes performance metrics for a specific slice of the data.
-
-    Inputs
-    ------
-    data : pd.DataFrame
-    column_name : str
-        The name of the categorical column to slice on.
-    slice_value : str
-        The value of the column to filter by.
-    categorical_features : list
-    label : str
-    encoder : OneHotEncoder
-    lb : LabelBinarizer
-    model : classifier
-
-    Returns
-    -------
-    precision, recall, fbeta : float
-    """
+        data,
+        column_name,
+        slice_value,
+        categorical_features,
+        label,
+        encoder,
+        lb,
+        model):
+    # TODO: implement the function
     slice_df = data[data[column_name] == slice_value]
     X_slice, y_slice, _, _ = process_data(
         slice_df,
