@@ -5,6 +5,8 @@ from ml.data import process_data
 import joblib
 from sklearn.ensemble import RandomForestClassifier
 # Optional: implement hyperparameter tuning.
+
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -22,9 +24,8 @@ def train_model(X_train, y_train):
     """
     # TODO: implement the function
     model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train,y_train)
+    model.fit(X_train, y_train)
     return model
-    
 
 
 def compute_model_metrics(y, preds):
@@ -65,7 +66,7 @@ def inference(model, X):
     """
     # TODO: implement the function
     return model.predict(X)
-    
+
 
 def save_model(model, path):
     """ Serializes model to a file.
@@ -79,7 +80,7 @@ def save_model(model, path):
     """
     # TODO: implement the function
     joblib.dump(model, path)
-    
+
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
@@ -88,8 +89,14 @@ def load_model(path):
 
 
 def performance_on_categorical_slice(
-    data, column_name, slice_value, categorical_features, label, encoder, lb, model
-):
+        data,
+        column_name,
+        slice_value,
+        categorical_features,
+        label,
+        encoder,
+        lb,
+        model):
     """ Computes the model metrics on a slice of the data specified by a column name and
 
     Processes the data using one hot encoding for the categorical features and a
@@ -133,6 +140,7 @@ def performance_on_categorical_slice(
         encoder=encoder,
         lb=lb
     )
-    preds = inference(model, X_slice) # your code here to get prediction on X_slice using the inference function
+    # your code here to get prediction on X_slice using the inference function
+    preds = inference(model, X_slice)
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
     return precision, recall, fbeta

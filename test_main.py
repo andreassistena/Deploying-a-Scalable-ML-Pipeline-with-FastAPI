@@ -1,9 +1,11 @@
 import requests
 
+
 def test_get_root():
     response = requests.get("http://127.0.0.1:8000/")
     assert response.status_code == 200
     assert "Welcome" in response.json()["message"]
+
 
 def test_post_inference():
     data = {
@@ -25,4 +27,3 @@ def test_post_inference():
     response = requests.post("http://127.0.0.1:8000/data/", json=data)
     assert response.status_code == 200
     assert "result" in response.json()
-    

@@ -16,11 +16,13 @@ from ml.model import (
 project_path = os.getcwd()
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
-data = pd.read_csv(data_path) # your code here
+data = pd.read_csv(data_path)  # your code here
 
 # TODO: split the provided data to have a train dataset and a test dataset
-# Optional enhancement, use K-fold cross validation instead of a train-test split.
-train, test = train_test_split(data, test_size=0.20, random_state=42)# Your code here
+# Optional enhancement, use K-fold cross validation instead of a
+# train-test split.
+train, test = train_test_split(
+    data, test_size=0.20, random_state=42)  # Your code here
 
 # DO NOT MODIFY
 cat_features = [
@@ -40,7 +42,7 @@ X_train, y_train, encoder, lb = process_data(
     categorical_features=cat_features,
     label="salary",
     training=True
-    )
+)
 
 X_test, y_test, _, _ = process_data(
     test,
@@ -65,9 +67,10 @@ save_model(lb, os.path.join("model", "lb.pkl"))
 # load the model
 model = load_model(
     model_path
-) 
+)
 
-# TODO: use the inference function to run the model inferences on the test dataset.
+# TODO: use the inference function to run the model inferences on the test
+# dataset.
 preds = inference(model, X_test)
 
 # Calculate and print the metrics
@@ -76,10 +79,10 @@ print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
 
 # TODO: compute the performance on model slices using the performance_on_categorical_slice function
 # iterate through the categorical features
-with open("slice_output.txt","w") as f:
+with open("slice_output.txt", "w") as f:
 
     for col in cat_features:
-    # iterate through the unique values in one categorical feature
+        # iterate through the unique values in one categorical feature
         for slicevalue in sorted(test[col].unique()):
             count = test[test[col] == slicevalue].shape[0]
             p, r, fb = performance_on_categorical_slice(
@@ -92,8 +95,10 @@ with open("slice_output.txt","w") as f:
                 lb=lb,
                 model=model,
                 # your code here
-            # use test, col and slicevalue as part of the input
+                # use test, col and slicevalue as part of the input
             )
         with open("slice_output.txt", "a") as f:
             print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
-            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
+            print(
+                f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}",
+                file=f)

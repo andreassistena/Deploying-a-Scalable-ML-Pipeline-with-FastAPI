@@ -8,13 +8,16 @@ project_path = os.getcwd()
 lb = load_model(os.path.join(project_path, "model", "lb.pkl"))
 client = TestClient(app)
 
+
 def test_one():
     """
     Test that the root endpoint returns the welcome message.
     """
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the FastAPI ML Inference API!"}
+    assert response.json() == {
+        "message": "Welcome to the FastAPI ML Inference API!"}
+
 
 def test_two():
     """
@@ -40,6 +43,7 @@ def test_two():
     assert response.status_code == 200
     assert "prediction" in response.json()
     assert response.json()["prediction"] in ["<=50K", ">50K"]
+
 
 def test_three():
     """
