@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 import joblib

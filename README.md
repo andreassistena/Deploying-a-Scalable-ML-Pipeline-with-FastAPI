@@ -138,3 +138,11 @@ Submission Checklist
  Unit tests for at least 3 functions
 
  All tests pass using pytest
+
+## Continuous Integration (CI)
+
+![CI Passing](./screenshots/flake8.png)
+
+## POST Inference Example
+
+![POST Request](./screenshots/Post Area.png)
