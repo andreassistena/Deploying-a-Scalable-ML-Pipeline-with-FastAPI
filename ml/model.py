@@ -105,11 +105,9 @@ def performance_on_categorical_slice(
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
 
     log_message = (
-        results_string == (
-            f"Precision: {precision:.4f} | "
-            f"Recall: {recall:.4f} | "
-            f"F1: {fbeta:.4f}\n"
-        )
+        f"Precision: {precision:.4f} | "
+        f"Recall: {recall:.4f} | "
+        f"F1: {fbeta:.4f}\n"
         f"{column_name}: {slice_value}, Count: {len(data_slice)}\n"
     )
 
