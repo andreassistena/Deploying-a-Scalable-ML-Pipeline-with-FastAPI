@@ -16,11 +16,10 @@ from ml.model import (
 project_path = "/home/dre_sistena/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/data/census.csv"
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
-data = pd.read_csv(data_path) 
+data = pd.read_csv(data_path)
 
 # Split the provided data to have a train dataset and a test dataset
-# Optional enhancement, use K-fold cross validation instead of a train-test split.
-train, test = train_test_split(data, test_size=0.20, random_state=42)# Your code here
+train, test = train_test_split(data, test_size=0.20, random_state=42)
 
 # DO NOT MODIFY
 cat_features = [
@@ -35,8 +34,8 @@ cat_features = [
 ]
 
 X_train, y_train, encoder, lb = process_data(
-    train,  
-    categorical_features=cat_features, 
+    train,
+    categorical_features=cat_features,
     label="salary",
     training=True
     )
@@ -50,7 +49,7 @@ X_test, y_test, _, _ = process_data(
     lb=lb,
 )
 
-model = train_model(X_train, y_train) 
+model = train_model(X_train, y_train)
 
 model_path = os.path.join(project_path, "model", "model.pkl")
 save_model(model, model_path)
@@ -61,21 +60,20 @@ save_model(lb, lb_path)
 
 model = load_model(
     model_path
-) 
+)
 
-preds = inference(model, X_test) 
+preds = inference(model, X_test)
 
 p, r, fb = compute_model_metrics(y_test, preds)
 print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
-
 
 
 for col in cat_features:
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
         p, r, fb = performance_on_categorical_slice(
-            test, 
-            col, 
+            test,
+            col,
             slicevalue,
             cat_features,
             label="salary",
@@ -85,4 +83,4 @@ for col in cat_features:
         )
         with open("slice_output.txt", "a") as f:
             print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
-            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
+            print(f"Precision:{p:.4f}| Recall:{r:.4f}| F1:{fb:.4f}", file=f)
