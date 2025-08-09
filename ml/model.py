@@ -1,11 +1,10 @@
-<<<<<<< HEAD
-import pickle
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 # TODO: add necessary import
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 import joblib
+
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train, cv=None):
@@ -26,7 +25,7 @@ def train_model(X_train, y_train, cv=None):
     # Train and return a model
     if cv is None:
         cv = StratifiedKFold(n_splits=5)
-    
+
     param_grid = {
         'n_estimators': [100, 200],
         'max_depth': [None, 10, 20],
@@ -34,8 +33,6 @@ def train_model(X_train, y_train, cv=None):
     clf = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=cv)
     clf.fit(X_train, y_train)
     return clf.best_estimator_
-
-
 
 
 def compute_model_metrics(y, preds):
@@ -77,6 +74,7 @@ def inference(model, X):
     # Run model inferences and return the predictions
     return model.predict(X)
 
+
 def save_model(model, path):
     """ Serializes model to a file.
 
@@ -89,6 +87,7 @@ def save_model(model, path):
     """
     # Save a model
     joblib.dump(model, path)
+
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
@@ -133,11 +132,11 @@ def performance_on_categorical_slice(
 
     """
     # Computes the metrics on a slice of the data
-    data_slice = data[data[column_name]==slice_value]
-    
+    data_slice = data[data[column_name] == slice_value]
+
     X_slice, y_slice, _, _ = process_data(
         # your code here
-        # for input data, use data in column given as "column_name", with the slice_value 
+        # for input data, use data in column given as "column_name", with the slice_value
         # use training = False
         data_slice,
         categorical_features=categorical_features,
@@ -146,101 +145,17 @@ def performance_on_categorical_slice(
         lb=lb,
         training=False
     )
-    preds = inference(model, X_slice) 
+    preds = inference(model, X_slice)
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
 
-    
     log_message = (
         f"Precision: {precision:.4f} | Recall: {recall:.4f} | F1: {fbeta:.4f}\n"
         f"{column_name}: {slice_value}, Count: {len(data_slice)}\n"
     )
-    
+
     with open('slice_output.txt', 'a') as f:
         f.write(log_message)
-    
-    
+
     print(log_message)
 
     return precision, recall, fbeta
-=======
-from sklearn.metrics import fbeta_score, precision_score, recall_score
-from ml.data import process_data
-import joblib
-from sklearn.ensemble import RandomForestClassifier
-
-
-def train_model(X_train, y_train):
-    """
-    Trains a machine learning model and returns it.
-
-    Inputs
-    ------
-    X_train : np.array
-        Training data.
-    y_train : np.array
-        Labels.
-    Returns
-    -------
-    model
-        Trained machine learning model.
-    """
-    # TODO: implement the function
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train, y_train)
-    return model
-
-
-def compute_model_metrics(y, preds):
-    fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
-    precision = precision_score(y, preds, zero_division=1)
-    recall = recall_score(y, preds, zero_division=1)
-    return precision, recall, fbeta
-
-
-def inference(model, X):
-    return model.predict(X)
-
-
-def save_model(model, path):
-    """ Serializes model to a file.
-
-    Inputs
-    ------
-    model
-        Trained machine learning model or OneHotEncoder.
-    path : str
-        Path to save pickle file.
-    """
-    # TODO: implement the function
-    joblib.dump(model, path)
-
-
-def load_model(path):
-    """ Loads pickle file from `path` and returns it."""
-    # TODO: implement the function
-    return joblib.load(path)
-
-
-def performance_on_categorical_slice(
-        data,
-        column_name,
-        slice_value,
-        categorical_features,
-        label,
-        encoder,
-        lb,
-        model):
-    # TODO: implement the function
-    slice_df = data[data[column_name] == slice_value]
-    X_slice, y_slice, _, _ = process_data(
-        slice_df,
-        categorical_features=categorical_features,
-        label=label,
-        training=False,
-        encoder=encoder,
-        lb=lb
-    )
-    preds = inference(model, X_slice)
-    precision, recall, fbeta = compute_model_metrics(y_slice, preds)
-    return precision, recall, fbeta
->>>>>>> 7b99ec5a894c135ed8e7a3294919c18e6b8a9155
