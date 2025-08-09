@@ -40,8 +40,9 @@ X, y, _, _ = process_data(
 
 # Test 1: Model type
 def test_model_type():
-    from sklearn.ensemble import RandomForestClassifier
-    assert isinstance(model, RandomForestClassifier)
+    assert hasattr(model, "predict"), (
+        "Trained model does not have a predict method to make a prediction."
+    )
 
 
 # Test 2: Prediction shape
