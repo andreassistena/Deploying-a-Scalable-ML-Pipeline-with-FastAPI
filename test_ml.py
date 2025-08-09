@@ -16,7 +16,7 @@ def test_model_type():
     X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, stratify=y)
     model = train_model(X_train, y_train)
     assert isinstance(model, RandomForestClassifier), (
-    "Model is not a RandomForestClassifier"
+        "Model is not a RandomForestClassifier"
     )
 
 
@@ -27,7 +27,7 @@ def test_compute_model_metrics_values():
     precision, recall, f1 = compute_model_metrics(y_true, y_pred)
 
     assert np.isclose(precision, 0.99, atol=1.0), (
-    "Precision out of expected range"
+        "Precision out of expected range"
     )
     assert np.isclose(recall, 0.66, atol=1.0), "Recall out of expected range"
     assert np.isclose(f1, 0.66, atol=1.0), "F1 out of expected range"
@@ -46,6 +46,6 @@ def test_training_input_shape():
     X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, stratify=y)
     model = train_model(X_train, y_train)
     assert hasattr(model, "predict"), (
-    "Trained model does not have a predict method"
-    " to make a prediction."
+        "Trained model does not have a predict method "
+        "to make a prediction."
     )
