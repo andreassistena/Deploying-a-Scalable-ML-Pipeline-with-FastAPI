@@ -48,4 +48,5 @@ def test_training_input_shape():
     y = pd.Series([0, 1] * 10)
     X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, stratify=y)
     model = train_model(X_train, y_train)
-    assert hasattr(model, "predict"), "Trained model does not have predict method"
+    assert hasattr(model, "predict"),
+    "Trained model does not have predict method"
