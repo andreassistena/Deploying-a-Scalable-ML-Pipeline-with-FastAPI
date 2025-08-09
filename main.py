@@ -40,7 +40,13 @@ try:
 
 except Exception as e:
     print(f"Error loading model, encoder, or label binarizer: {e}")
-    raise HTTPException(status_code=500, detail=f"Error loading model, encoder, or label binarizer: {str(e)}")
+    raise HTTPException(
+        status_code=500,
+        detail=(
+            f"Error loading model, encoder, or label binarizer: {str(e)} "
+            "additional details here if needed"
+        ),
+    )
 
 # Create a RESTful API using FastAPI
 app = FastAPI()  # your code here
@@ -49,7 +55,6 @@ app = FastAPI()  # your code here
 # Create a GET on the root giving a welcome message
 @app.get("/")
 async def get_root():
-
     """ Say hello!"""
     # your code here
     return {"message": "Hello from the API!"}
