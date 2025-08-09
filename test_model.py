@@ -49,7 +49,6 @@ def test_prediction_shape():
     preds = inference(model, X)
     assert preds.shape == (1,), "Prediction output shape is incorrect"
 
-
 # Test 3: Evaluation metrics thresholds
 def test_model_metrics():
     # Simulated known values for test
